@@ -2,7 +2,7 @@ run: compile execute clean
 
 
 compile:
-	g++ -o executable ab.cpp
+	g++ -o executable main.cpp
 
 execute:
 	./executable
