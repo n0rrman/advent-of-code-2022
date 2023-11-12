@@ -1,7 +1,6 @@
 # Advent of Code 2022, 2nd of December
 
-``
---- Day 2: Rock Paper Scissors ---
+### Day 2: Rock Paper Scissors
 
 The Elves begin to set up camp on the beach. To decide whose tent gets to be closest to the snack storage, a giant Rock Paper Scissors tournament is already in progress.
 
@@ -17,9 +16,12 @@ Since you can't be sure if the Elf is trying to help you or trick you, you shoul
 
 For example, suppose you were given the following strategy guide:
 
+```
 A Y
 B X
 C Z
+```
+
 This strategy guide predicts and recommends the following:
 
 In the first round, your opponent will choose Rock (A), and you should choose Paper (Y). This ends in a win for you with a score of 8 (2 because you chose Paper + 6 because you won).
@@ -29,9 +31,9 @@ In this example, if you were to follow the strategy guide, you would get a total
 
 What would your total score be if everything goes exactly according to your strategy guide?
 
-Your puzzle answer was 11906.
+Your puzzle answer was `11906`.
 
---- Part Two ---
+### Part Two
 
 The Elf finishes helping with the tent and sneaks back over to you. "Anyway, the second column says how the round needs to end: X means you need to lose, Y means you need to end the round in a draw, and Z means you need to win. Good luck!"
 
@@ -44,7 +46,6 @@ Now that you're correctly decrypting the ultra top secret strategy guide, you wo
 
 Following the Elf's instructions for the second column, what would your total score be if everything goes exactly according to your strategy guide?
 
-Your puzzle answer was 11186.
-``
+Your puzzle answer was `11186`.
 
 [2nd of December](https://adventofcode.com/2022/day/2)
