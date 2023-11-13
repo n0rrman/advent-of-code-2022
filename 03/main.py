@@ -37,11 +37,6 @@ def compare_halves(row, length):
 
     return first_half.index[first_half.isin(second_half) & (first_half != 0)]
 
-#def to_sparse(row):
-    #for 
-    #new_array[]
-    #return pd.arrays.SparseArray(row, fill_value=0)
-
 
 def main():
     input = read_file('input.txt')
