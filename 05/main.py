@@ -27,102 +27,31 @@ def format_init_stacks(input):
     return input_log
 
 
+def process_input(stacks, input, part):
 
-#def add_entry(logs, from_stack, to_stack)
-
-
-
-
-
-def process_input(stacks, input):
-
-
+    # clean the data
     input = input.replace('move ', '').replace('from ', ''). replace('to ', '')
-    
 
-
-
-    index = 0
-    #print(stacks[stacks["stack"] == 1])
     for row in input.splitlines():
 
         input_array = row.split(' ')
-
+        
         amount, from_stack, to_stack = input_array
-
-
+        
         targeted_value = stacks[(stacks["stack"] == int(from_stack)) & (stacks["dirty_bit"] != 1)].iloc[-int(amount):]
-        #print(targeted_value["value"].values[0])
-        #index_to_modify = stacks.index[stacks['value'] == targeted_value]
-        if index == 0:
-            print(targeted_value["value"].values)
+        targeted_indices = stacks.index[stacks.index.isin(targeted_value.index)]
 
-        target_index = stacks.index[
-            (stacks["value"] == targeted_value["value"].values).any() & 
-            (stacks['stack'] == int(from_stack)) #&
-            #(stacks['dirty_bit' != 1])
-        ].values[0]
-        #print(stacks.loc[stacks["value"] == targeted_value["value"].values[0]])
-        stacks.at[target_index, "dirty_bit"] = 1
-        #print(target_index)
+        stacks.loc[targeted_indices, "dirty_bit"] = 1
+
         targeted_value["stack"] = int(to_stack)
 
-        stacks = pd.concat([stacks, targeted_value], ignore_index=True)
-        #the_index = stacks.index[stacks["value"] == targeted_value["value"].values[0]]
-        #print(stacks)
-        #stacks.loc[stacks["value"] == targeted_value["value"].values[0]].insert(1, "dirty_bit")
-        #stacks.insert(the_index, "dirty_bit", 1)
+        if part == 'one':
+            stacks = pd.concat([stacks, targeted_value[::-1]], ignore_index=True)
+        if part == 'two':
+            stacks = pd.concat([stacks, targeted_value], ignore_index=True)
 
-        index += 1
-        #stacks.loc[index_to_modify, "dirty_bit"] = 1
-        #["dirty_bit"] = 1
-        #targeted_value["dirty_bit"] = 1#.replace(0, 1, inplace=True)
-        
-
-        #print(stacks.insert(len(stacks, targeted_value))
-
-        #print(pd.concat([stacks, targeted_value]))
-        
-        #stacks= = stacks[(stacks["stack"] == int(from_stack)) & (stacks["dirty_bit"] != 1)].iloc[-int(amount):]
-        #stacks = targeted_value["dirty_bit"].replace(0, 1, inplace=True)
-        
-        #print(stacks)
-        
-        ##stacks = stacks.loc[targeted_value.index]["dirty_bit"]
-        #print(stacks.loc[targeted_value.index]["dirty_bit"])
-        #stacks.iloc[targeted_value.index]["dirty_bit"] = 1
-        #stacks = pd.concat(stacks, targeted_value)
-        #print(stacks)
-        #print(targeted_value)
-        #print(targeted_value)
-
-        #print(stacks[[stacks["dirty_bit"] == 1]])
-        #print(stacks)
-
-    #data = pd.DataFrame([row.split(' ') for row in input.splitlines()])
 
     return stacks
-
-    #return data
-
-# def process_input(input):
-
-#     # for i, rows in enumerate(poo.T.values):
-#     #     for entry in rows[::-1]:
-#     #         print(i, entry) 
-
-#     # data["value"], data["stack"] = input[0], 1
-#     # data["value"], data["stack"] = input[1], 2
-#     #for i in poo.values:
-#     #     print("value: {} \t".format(i))
-#     #data = pd.concat([data, pd.DataFrame([{'value': a, 'stack': i} for i, a in enumerate(test) for row.T in input_data])], ignore_index=True)
-#     #data = pd.concat([{'value': val, 'stack': i} for i, row in enumerate(poo.T.values) for val in row], ignore_index=True)
-#     #data = data.explode('value', ignore_index=False)
-
-#     return data
-
-    #data.loc[len(data)] = [{'value': input[1], 'stack': 2}]
-
 
 
 
@@ -130,20 +59,19 @@ def process_input(stacks, input):
 def main():
     stacks_input = read_file('initial_stacks.txt')
     input_file = read_file('input.txt')
-
     stacks = format_init_stacks(stacks_input)
-    data = process_input(stacks, input_file)
 
-    #print(data.tail(10))
-
-    #print(inputs.head())
-
-    #data = process_input(stacks, inputs)
+    # Part one
+    data_one = process_input(stacks.copy(), input_file, 'one')
+    stack_top_one = data_one[data_one["dirty_bit"] != 1].groupby(["stack"]).apply(lambda group: group.iloc[-1])['value'].apply(chr)
+    print("Part one:", ''.join(stack_top_one.values))
 
 
-    #print(data)
-    #print(chr(stacks[stacks["stack"] == 2].iloc[-1]["value"]));
-    #print(chr(data[data["stack"] == 2].iloc[-1]["value"]));
+    # Part two
+    data_two = process_input(stacks.copy(), input_file, 'two')
+    stack_top_two = data_two[data_two["dirty_bit"] != 1].groupby(["stack"]).apply(lambda group: group.iloc[-1])['value'].apply(chr)
+    print("Part two:", ''.join(stack_top_two.values))
+
 
 
 if __name__ == "__main__":
