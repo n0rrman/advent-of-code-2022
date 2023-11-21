@@ -11,17 +11,17 @@ class Knot
 public:
     Knot();
     Knot(Knot *knot);
-    Knot *tailKnot;
+
+    std::unordered_set<std::string> visited;
 
     void setStart(const int &startX, const int &startY);
     void follow(const int &fromX, const int &fromY, const int &toX, const int &toY);
 
     std::unordered_set<std::string> &getVisited();
-    Knot *getLastKnot();
-
-    std::unordered_set<std::string> visited;
 
 private:
+    Knot *tailKnot;
+
     int x;
     int y;
 

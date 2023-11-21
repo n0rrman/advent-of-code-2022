@@ -1,7 +1,5 @@
-// #include <algorithm>
 #include <fstream>
 #include <iostream>
-// #include <functional>
 
 #include "Rope.h"
 #include "Knot.h"
@@ -11,9 +9,15 @@ using namespace std;
 int main()
 {
     ifstream input_stream;
-    input_stream.open("test_input.txt");
-    Knot knotOne = Knot();
-    Rope rope = Rope(&knotOne, 0, 0);
+    input_stream.open("input.txt");
+
+    Knot *knots[9];
+    knots[8] = new Knot();
+    for (int i = 8; i > 0; i--)
+    {
+        knots[i - 1] = new Knot(knots[i]);
+    }
+    Rope *rope = new Rope(knots[0], 1000, 1000);
 
     string line;
     while (getline(input_stream, line, '\n'))
@@ -25,25 +29,25 @@ int main()
         {
         case 'U':
             for (size_t i = 0; i < iterations; i++)
-                rope.moveUp();
+                rope->moveUp();
             break;
         case 'L':
             for (size_t i = 0; i < iterations; i++)
-                rope.moveLeft();
+                rope->moveLeft();
             break;
         case 'D':
             for (size_t i = 0; i < iterations; i++)
-                rope.moveDown();
+                rope->moveDown();
             break;
         case 'R':
             for (size_t i = 0; i < iterations; i++)
-                rope.moveRight();
+                rope->moveRight();
             break;
         }
     }
 
-    const int resultsOne = rope.getTail()->getVisited().size();
-    const int resultsTwo = knotOne.getVisited().size();
+    const int resultsOne = knots[0]->getVisited().size();
+    const int resultsTwo = knots[8]->getVisited().size();
 
     printf("\nPart one: %d\nPart two: %d\n", resultsOne, resultsTwo);
 

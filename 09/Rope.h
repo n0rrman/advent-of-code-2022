@@ -6,22 +6,18 @@
 
 #include "Knot.h"
 
-
 class Rope
 {
 public:
-    Rope(Knot* knot, const int startX, const int startY);
+    Rope(Knot *knot, const int startX, const int startY);
 
     void moveUp();
     void moveRight();
     void moveDown();
     void moveLeft();
 
-    Knot* getTail();
-    Knot* getLastKnot();
-
 private:
-    Knot tailKnot;
+    Knot *tailKnot;
 
     int x;
     int y;

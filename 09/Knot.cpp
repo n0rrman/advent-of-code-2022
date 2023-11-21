@@ -6,7 +6,7 @@ using namespace std;
 
 Knot::Knot()
 {
-    Knot(nullptr);
+    tailKnot = nullptr;
 }
 
 Knot::Knot(Knot *knot)
@@ -20,23 +20,16 @@ void Knot::setStart(const int &startX, const int &startY)
     y = startY;
 
     visit(x, y);
+
+    if (tailKnot != nullptr)
+    {
+        tailKnot->setStart(startX, startY);
+    }
 }
 
 std::unordered_set<std::string> &Knot::getVisited()
 {
     return visited;
-}
-
-Knot *Knot::getLastKnot()
-{
-    if (tailKnot != NULL)
-    {
-        return tailKnot->getLastKnot();
-    }
-    else
-    {
-        return this;
-    }
 }
 
 void Knot::visit(const int &x, const int &y)
@@ -46,15 +39,21 @@ void Knot::visit(const int &x, const int &y)
 
 void Knot::follow(const int &fromX, const int &fromY, const int &toX, const int &toY)
 {
-
     bool xCheck = abs(toX - x) > ROPE_LENGTH;
     bool yCheck = abs(toY - y) > ROPE_LENGTH;
 
+    int oldX = x;
+    int oldY = y;
+
     if (xCheck | yCheck)
     {
-        x = fromX;
-        y = fromY;
-
-        visit(x, y);
+        x += (toX > x) - (toX < x);
+        y += (toY > y) - (toY < y);
     }
+
+    if (tailKnot != nullptr)
+    {
+        tailKnot->follow(oldX, oldY, x, y);
+    }
+    visit(x, y);
 }
