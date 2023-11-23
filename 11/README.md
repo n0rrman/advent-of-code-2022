@@ -43,6 +43,7 @@ Each monkey has several attributes:
 * Starting items lists your worry level for each item the monkey is currently holding in the order they will be inspected.
 * Operation shows how your worry level changes as that monkey inspects an item. (An operation like new = old * 5 means that your worry level after the monkey inspected the item is five times whatever your worry level was before inspection.)
 * Test shows how the monkey uses your worry level to decide where to throw an item next.
+<<<<<<< HEAD
   * If true shows what happens with an item if the Test was true.
   * If false shows what happens with an item if the Test was false.
 
