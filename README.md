@@ -26,7 +26,7 @@ Starting from the 7th, tasks will only be completed in EITHER pandas OR C++. Tas
 | [08](https://adventofcode.com/2022/day/8) | ✅ | 🐼 pandas          | [advent-of-code-2022/08](https://github.com/n0rrman/advent-of-code-2022/tree/main/08) |
 | [09](https://adventofcode.com/2022/day/9) | ✅ | 🅒 C++             | [advent-of-code-2022/09](https://github.com/n0rrman/advent-of-code-2022/tree/main/09) |
 | [10](https://adventofcode.com/2022/day/10) | ✅ | 🐼 pandas  | [advent-of-code-2022/10](https://github.com/n0rrman/advent-of-code-2022/tree/main/10) |
-| [11](https://adventofcode.com/2022/day/11) | ❌ |                   |  |
+| [11](https://adventofcode.com/2022/day/11) | ✅ |   🅒 C++            | [advent-of-code-2022/11](https://github.com/n0rrman/advent-of-code-2022/tree/main/11) |
 | [12](https://adventofcode.com/2022/day/12) | ❌ |                   |  |
 | [13](https://adventofcode.com/2022/day/13) | ❌ |                   |  |
 | [14](https://adventofcode.com/2022/day/14) | ❌ |                   |  |

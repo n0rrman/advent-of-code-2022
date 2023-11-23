@@ -1,0 +1,32 @@
+    monkey[0] = new Monkey(
+        vector<int>{79, 98},
+        [](int x)
+        { return x * 19; },
+        [](int test)
+        { return (test % 23) == 0; });
+
+    monkey[1] = new Monkey(
+        vector<int>{54, 65, 75, 74},
+        [](int x)
+        { return x + 6; },
+        [](int test)
+        { return (test % 19) == 0; });
+
+    monkey[2] = new Monkey(
+        vector<int>{79, 60, 97},
+        [](int x)
+        { return x * x; },
+        [](int test)
+        { return (test % 13) == 0; });
+
+    monkey[3] = new Monkey(
+        vector<int>{74},
+        [](int x)
+        { return x + 3; },
+        [](int test)
+        { return (test % 17) == 0; });
+
+    monkey[0]->connect(monkey[2], monkey[3]);
+    monkey[1]->connect(monkey[2], monkey[0]);
+    monkey[2]->connect(monkey[1], monkey[3]);
+    monkey[3]->connect(monkey[0], monkey[1]);
