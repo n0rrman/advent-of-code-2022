@@ -1,0 +1,64 @@
+monkey[0] = new Monkey(
+        vector<int>{72, 97},
+        [](int x)
+        { return x * 13; },
+        [](int test)
+        { return (test % 19) == 0; });
+
+    monkey[1] = new Monkey(
+        vector<int>{55, 70, 90, 74, 95},
+        [](int x)
+        { return x * x; },
+        [](int test)
+        { return (test % 7) == 0; });
+
+    monkey[2] = new Monkey(
+        vector<int>{74, 97, 66, 57},
+        [](int x)
+        { return x + 6; },
+        [](int test)
+        { return (test % 17) == 0; });
+
+    monkey[3] = new Monkey(
+        vector<int>{86, 54, 53},
+        [](int x)
+        { return x + 2; },
+        [](int test)
+        { return (test % 13) == 0; });
+
+    monkey[4] = new Monkey(
+        vector<int>{50, 65, 78, 50, 62, 99},
+        [](int x)
+        { return x + 3; },
+        [](int test)
+        { return (test % 11) == 0; });
+
+    monkey[5] = new Monkey(
+        vector<int>{90},
+        [](int x)
+        { return x + 4; },
+        [](int test)
+        { return (test % 2) == 0; });
+
+    monkey[6] = new Monkey(
+        vector<int>{88, 92, 63, 94, 96, 82, 53, 53},
+        [](int x)
+        { return x + 8; },
+        [](int test)
+        { return (test % 5) == 0; });
+
+    monkey[7] = new Monkey(
+        vector<int>{70, 60, 71, 69, 77, 70, 98},
+        [](int x)
+        { return x * 7; },
+        [](int test)
+        { return (test % 3) == 0; });
+
+    monkey[0]->connect(monkey[5], monkey[6]);
+    monkey[1]->connect(monkey[5], monkey[0]);
+    monkey[2]->connect(monkey[1], monkey[0]);
+    monkey[3]->connect(monkey[1], monkey[2]);
+    monkey[4]->connect(monkey[3], monkey[7]);
+    monkey[5]->connect(monkey[4], monkey[6]);
+    monkey[6]->connect(monkey[4], monkey[7]);
+    monkey[7]->connect(monkey[2], monkey[3]);
