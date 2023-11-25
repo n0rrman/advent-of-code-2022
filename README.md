@@ -1,4 +1,4 @@
-# Advent of Code 2022 - C++ & Python (pandas)
+# Advent of Code 2022: C++ & Python (pandas)
 
 This repository serves as a mono repository for the [Advent of Code 2022]((https://adventofcode.com/2022)) challenges. The tasks are completed and implemented in both Python 3 and C++.
 
@@ -27,7 +27,7 @@ Starting from the 7th, tasks will only be completed in EITHER pandas OR C++. Tas
 | [09](https://adventofcode.com/2022/day/9) | ✅ | 🅒 C++             | [advent-of-code-2022/09](https://github.com/n0rrman/advent-of-code-2022/tree/main/09) |
 | [10](https://adventofcode.com/2022/day/10) | ✅ | 🐼 pandas  | [advent-of-code-2022/10](https://github.com/n0rrman/advent-of-code-2022/tree/main/10) |
 | [11](https://adventofcode.com/2022/day/11) | ✅ |   🅒 C++            | [advent-of-code-2022/11](https://github.com/n0rrman/advent-of-code-2022/tree/main/11) |
-| [12](https://adventofcode.com/2022/day/12) | ❌ |   🅒 C++           |  [advent-of-code-2022/12](https://github.com/n0rrman/advent-of-code-2022/tree/main/12) |
+| [12](https://adventofcode.com/2022/day/12) | ✅ |   🅒 C++           |  [advent-of-code-2022/12](https://github.com/n0rrman/advent-of-code-2022/tree/main/12) |
 | [13](https://adventofcode.com/2022/day/13) | ❌ |                   |  |
 | [14](https://adventofcode.com/2022/day/14) | ❌ |                   |  |
 | [15](https://adventofcode.com/2022/day/15) | ❌ |                   |  |

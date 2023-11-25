@@ -1,121 +1,106 @@
 #include <iostream>
 #include <fstream>
-#include <unordered_set>
-
-#include <chrono>
-#include <iostream>
-#include <ctime>
-#include <ratio>
 
 using namespace std;
-using namespace std::chrono;
 
 typedef vector<vector<char>> Map;
 
-bool isValidMove(Map &map, vector<pair<int, int>> &path, int x, int y)
+struct Coords
 {
-    for (pair<int, int> &pair : path)
-    {
-        if ((x == pair.first) && (y == pair.second))
-        {
-            return false;
-        }
-    }
+    unsigned int x, y, nextX, nextY;
+};
 
-    if ((x < 0) || (y < 0))
-    {
-        return false;
-    }
-    if (map[0].size() <= x)
-        return false;
-    if (map.size() <= y)
+bool isValidMove(Map &map, vector<Coords> &workList, pair<unsigned int, unsigned int> fromCoords, pair<unsigned int, unsigned int> toCoords)
+{
+    // auto it = find_if(workList.begin(), workList.end(), [&](const Coords &set)
+    //                   { return set.x == fromCoords.first && set.y == fromCoords.second && set.nextX == toCoords.first && set.nextY == toCoords.second; });
+
+    // if (it != workList.end())
+    // {
+    //     return false;
+    // }
+
+    if ((toCoords.first < 0) || (toCoords.second < 0))
         return false;
 
-    int prevX = path.back().first;
-    int prevY = path.back().second;
-    char prevElevation = map[prevY][prevX];
-    char currentElevation = map[y][x];
-    if ((map[y][x] == 'S') && ((map[prevY][prevX] == 'b') || (map[prevY][prevX] == 'a')))
-    {
-        cout << "end found" << endl;
-        return true;
-    }
-    if (abs(prevElevation - currentElevation) > 1)
+    if (map[0].size() <= toCoords.first || map.size() <= toCoords.second)
+        return false;
+
+    //    if (distanceMap[toCoords.second][toCoords.second] != INT_MAX)
+    //      return false;
+    // cout << "testc" << endl;
+    char prevElevation = map[fromCoords.second][fromCoords.first];
+    char currentElevation = map[toCoords.second][toCoords.first];
+    // if ((map[y][x] == 'S') && ((map[prevY][prevX] == 'b') || (map[prevY][prevX] == 'a')))
+    // {
+    //     cout << "end found" << endl;
+    //     return true;
+    // }
+    // if (!((1 + currentElevation) <= prevElevation))
+    if ((abs(currentElevation - prevElevation) > 1) && (prevElevation < currentElevation))
     {
         return false;
     }
-
     return true;
 }
 
-unsigned int findE(Map &map, vector<pair<int, int>> path, int ttl, int x, int y)
-
+int findEnd(Map &map, pair<unsigned int, unsigned int> &startCoords, pair<unsigned int, unsigned int> &endCoords)
 {
+    unsigned int fromX, fromY;
+    unsigned int nextX, nextY;
+    vector<vector<int>> distanceMap(map.size(), vector<int>(map[0].size(), INT_MAX));
+    vector<Coords> workList;
 
-    if (!isValidMove(map, path, x, y))
+    if (isValidMove(map, workList, {startCoords.first, startCoords.second}, {startCoords.first + 1, startCoords.second}))
+        workList.push_back({startCoords.first, startCoords.second, startCoords.first + 1, startCoords.second});
+    if (isValidMove(map, workList, {startCoords.first, startCoords.second}, {startCoords.first - 1, startCoords.second}))
+        workList.push_back({startCoords.first, startCoords.second, startCoords.first - 1, startCoords.second});
+    if (isValidMove(map, workList, {startCoords.first, startCoords.second}, {startCoords.first, startCoords.second + 1}))
+        workList.push_back({startCoords.first, startCoords.second, startCoords.first, startCoords.second + 1});
+    if (isValidMove(map, workList, {startCoords.first, startCoords.second}, {startCoords.first, startCoords.second - 1}))
+        workList.push_back({startCoords.first, startCoords.second, startCoords.first, startCoords.second - 1});
+
+    distanceMap[startCoords.second][startCoords.first] = 0;
+
+    unsigned int newDistance;
+    while (!workList.empty())
     {
-        return 99999;
+
+        fromX = workList.front().x;
+        fromY = workList.front().y;
+        nextX = workList.front().nextX;
+        nextY = workList.front().nextY;
+
+        if (map[fromY][fromX] == 'w')
+            cout << "AIHSDIASDHA" << endl;
+
+        map[fromY][fromX] = 'X';
+
+        cout << "from: " << fromX << ", " << fromY << endl;
+        cout << "next: " << nextX << ", " << nextY << endl;
+
+        workList.erase(workList.begin());
+
+        if (map[fromY][fromX] == 'a')
+            distanceMap[fromY][fromX] = 0;
+
+        if ((1 + distanceMap[fromY][fromX]) < distanceMap[nextY][nextX])
+        {
+            distanceMap[nextY][nextX] = distanceMap[fromY][fromX] + 1;
+
+            if (isValidMove(map, workList, {nextX, nextY}, {nextX + 1, nextY}))
+                workList.push_back({nextX, nextY, nextX + 1, nextY});
+            if (isValidMove(map, workList, {nextX, nextY}, {nextX - 1, nextY}))
+                workList.push_back({nextX, nextY, nextX - 1, nextY});
+            if (isValidMove(map, workList, {nextX, nextY}, {nextX, nextY + 1}))
+                workList.push_back({nextX, nextY, nextX, nextY + 1});
+            if (isValidMove(map, workList, {nextX, nextY}, {nextX, nextY - 1}))
+                workList.push_back({nextX, nextY, nextX, nextY - 1});
+        }
     }
-    path.push_back({x, y});
+    cout << distanceMap.size() << " + " << distanceMap[0].size() << endl;
 
-    if (ttl <= 0)
-    {
-        return 99999;
-    }
-
-    if (map[y][x] == 'S')
-    {
-
-        cout << x << ", " << y << endl;
-        return 1;
-    }
-
-    unsigned int newTTL = ttl - 1;
-
-    return 1 + min({findE(map, path, newTTL, x - 1, y),
-                    findE(map, path, newTTL, x, y - 1),
-                    findE(map, path, newTTL, x + 1, y),
-                    findE(map, path, newTTL, x, y + 1)});
-}
-
-int findEnd(Map &map)
-{
-    // int startX = 0;
-    // int startX = 5;
-    // int startY = 2;
-    int startY = 20;
-    int startX = 72;
-    // int startY = 20;
-    // int startY = 0;o
-    cout << map.size() << endl;
-    cout << map[startY][startX] << endl;
-    map[startY][startX] = 'z';
-    // map[startY][startX] = 'a';
-    int TTL = 100;
-    unsigned int a = UINT_MAX, b = UINT_MAX, c = UINT_MAX, d = UINT_MAX;
-
-    vector<pair<int, int>> path;
-
-    path.push_back({startX, startY});
-
-    if (isValidMove(map, path, startX - 1, startY))
-    {
-        a = findE(map, path, TTL, startX - 1, startY);
-    }
-    if (isValidMove(map, path, startX, startY - 1))
-    {
-        b = findE(map, path, TTL, startX, startY - 1);
-    }
-    if (isValidMove(map, path, startX + 1, startY))
-    {
-        c = findE(map, path, TTL, startX + 1, startY);
-    }
-    if (isValidMove(map, path, startX, startY + 1))
-    {
-        d = findE(map, path, TTL, startX, startY + 1);
-    }
-
-    return 1 + min({a, b, c, d});
+    return distanceMap[endCoords.second][endCoords.first];
 }
 
 int main()
@@ -127,10 +112,11 @@ int main()
     string line;
 
     Map signalMap;
+    pair<unsigned int, unsigned int> startXY;
+    pair<unsigned int, unsigned int> endXY;
 
-    unsigned int y = 0;
     unsigned int x;
-
+    unsigned int y = 0;
     while (getline(input_stream, line, '\n'))
     {
         x = 0;
@@ -138,20 +124,45 @@ int main()
 
         for (char &c : line)
         {
-            signalMap[y].push_back(c);
+            if (c == 'S')
+            {
+                startXY = {x, y};
+                signalMap[y].push_back('a');
+            }
+            else if (c == 'E')
+            {
+                endXY = {x, y};
+                signalMap[y].push_back('z');
+            }
+            else
+            {
+                signalMap[y].push_back(c);
+            }
+            x++;
         }
         y++;
     }
 
-    high_resolution_clock::time_point t1 = high_resolution_clock::now();
+    cout << startXY.second << ", " << startXY.first << " - " << signalMap[startXY.second][startXY.first] << endl;
+    cout << endXY.second << ", " << endXY.first << " - " << signalMap[endXY.second][endXY.first] << endl;
 
-    int test = findEnd(signalMap);
+    int test = findEnd(signalMap, startXY, endXY);
 
-    high_resolution_clock::time_point t2 = high_resolution_clock::now();
-    duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
-    std::cout << "It took me " << time_span.count() << " seconds." << endl;
+    for (vector<char> &row : signalMap)
+    {
 
-    cout << test << endl;
+        for (char &e : row)
+        {
+
+            cout << e;
+        }
+        cout << endl;
+    }
+    // high_resolution_clock::time_point t2 = high_resolution_clock::now();
+    // duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
+    // std::cout << "It took me " << time_span.count() << " seconds." << endl;
+
+    cout << "Distance: " << test << endl;
 
     return 0;
 }
